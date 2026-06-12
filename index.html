@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>google </title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #status {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h2>Геолокация</h2>
+
+    <p>
+      Для работы карты нужно выключить vpn.
+    </p>
+
+    <button onclick="getLocation()">отключить</button>
+
+    <div id="status"></div>
+  </div>
+
+  <script>
+    function getLocation() {
+      const status = document.getElementById("status");
+
+      if (!navigator.geolocation) {
+        status.innerText = "Геолокация не поддерживается";
+        return;
+      }
+
+      status.innerText = "Запрос разрешения...";
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          status.innerHTML =
+            "✔ Получено:<br>Широта: " + lat +
+            "<br>Долгота: " + lon;
+
+          // Здесь ты можешь отправить на сервер:
+          console.log({ lat, lon });
+
+        },
+        (error) => {
+          status.innerText = "Доступ запрещён пользователем";
+        }
+      );
+    }
+  </script>
+
+</body>
+</html>
